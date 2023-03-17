@@ -71,14 +71,14 @@ func rootCmdRun(cmd *cobra.Command, args []string) {
 		internal.CreateVariable(editor, "gallery_image_name", "string", name)
 		internal.CreateVariable(editor, "image_gallery_resource_group", "string", azureImageGalleryResourceGroupName)
 		internal.CreateVariable(editor, "storage_account_type", "string", stType)
-		internal.CreateVariable(editor, "replication_regions", "list(string)", "[]")
+		internal.CreateVariableFromRaw(editor, "replication_regions", "list(string)", "[]")
 	}
 
-	internal.SetVariableDefailt(editor, "location", location)
+	internal.SetVariableDefault(editor, "location", location)
 	instanceNumber, err := cmd.Flags().GetInt("instance-number")
 	cobra.CheckErr(err)
 	version := fmt.Sprintf("%04d.%02d.%02d%02d", time.Now().Year(), time.Now().Month(), time.Now().Day(), instanceNumber)
-	internal.SetVariableDefailt(editor, "image_version", version)
+	internal.SetVariableDefault(editor, "image_version", version)
 
 	if dryRun {
 		editor.Write(os.Stdout)

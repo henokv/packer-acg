@@ -8,7 +8,13 @@ func CreateVariable(editor hcledit.HCLEditor, name string, valType string, value
 	editor.Create("variable."+name+".default", value)
 }
 
-func SetVariableDefailt(editor hcledit.HCLEditor, name string, defaultValue string) {
+func CreateVariableFromRaw(editor hcledit.HCLEditor, name string, valType string, rawValString string) {
+	editor.Create("variable", hcledit.BlockVal(name))
+	editor.Create("variable."+name+".type", hcledit.RawVal(valType))
+	editor.Create("variable."+name+".default", hcledit.RawVal(rawValString))
+}
+
+func SetVariableDefault(editor hcledit.HCLEditor, name string, defaultValue string) {
 	editor.Create("variable."+name+".default", defaultValue)
 }
 
@@ -26,7 +32,7 @@ func SetAzureImageGallery(editor hcledit.HCLEditor) {
 	editor.Create("source.azure-arm.*.shared_image_gallery_destination.image_version", hcledit.RawVal("\"${var.image_version}\""))
 	editor.Create("source.azure-arm.*.shared_image_gallery_destination.resource_group", hcledit.RawVal("\"${var.image_gallery_resource_group}\""))
 	editor.Create("source.azure-arm.*.shared_image_gallery_destination.subscription", hcledit.RawVal("\"${var.subscription_id}\""))
-	editor.Create("source.azure-arm.*.shared_image_gallery_destination.replication_regions", hcledit.RawVal("\"${var.replication_regions}\""))
+	editor.Create("source.azure-arm.*.shared_image_gallery_destination.replication_regions", hcledit.RawVal("var.replication_regions"))
 	editor.Create("source.azure-arm.*.shared_image_gallery_destination.storage_account_type", hcledit.RawVal("\"${var.storage_account_type}\""))
 
 	editor.Delete("source.azure-arm.*.capture_container_name")
